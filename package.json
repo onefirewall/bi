@@ -1,0 +1,26 @@
+{
+  "name": "bi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node biapp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onefirewall/bi.git"
+  },
+  "keywords": [],
+  "author": "Malfor Saja",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onefirewall/bi/issues"
+  },
+  "homepage": "https://github.com/onefirewall/bi#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3"
+  }
+}
