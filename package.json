@@ -20,7 +20,10 @@
   "homepage": "https://github.com/onefirewall/bi#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "chart.js": "^2.7.2",
+    "cloudflare": "^2.4.1",
     "dotenv": "^5.0.1",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "request": "^2.85.0"
   }
 }

@@ -12,10 +12,10 @@
     <div class="container">
         <br>
         <div class="col-md-6">
-            <h3 class="display-4">Pie Chart for IPs</h3>
+            <!-- <h3 class="display-4">Pie Chart for IPs</h3> -->
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 text-center">
             <canvas id="ipChart" width="150" height="150"></canvas>
         </div>
 
@@ -27,9 +27,11 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script> -->
+    <script src="./node_modules/chart.js/dist/Chart.js"></script>
 
     <script>
+
         var ctx = document.getElementById("ipChart").getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'pie',
@@ -37,22 +39,42 @@
                 labels: ["Public IPs used", "OneFirewall IPs"],
                 datasets: [{
                     label: '# of IPs',
-                    data: [98, 2],
+                    data: [4294967296, 2235],
                     backgroundColor: [
-                        'rgba(10, 139, 10, 2)',
-                        'rgba(255, 99, 132, 2)'
+                        //'rgba(10, 139, 10, 2)',
+                        //'rgba(255, 99, 132, 2)'
+                        '#16a085',
+                        '#ff3d67'
                     ],
                     borderColor: [
-                        'rgba(10, 139, 10, 1)',
-                        'rgba(255, 99, 132, 1)'
+                        //'rgba(10, 139, 10, 1)',
+                        //'rgba(255, 99, 132, 1)'
+                        '#16a085',
+                        '#ff3d67'
 
                     ],
-                    borderWidth: 1
+                    borderWidth: 1,
+                    //borderColor: '#777',
+                    hoverBorderWidth: 3,
+                    hoverBorderColor: '#000'
                 }]
             },
-
+            options: {
+                animation: {
+                    animateScale: true
+                },
+                title: {
+                    display: true,
+                    text: 'OneFirewall IPs',
+                    fontSize: 25 
+                },
+                legend: {
+                    position: 'top'
+                }
+            }
         });
     </script>
+
 
 </body>
 

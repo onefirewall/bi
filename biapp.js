@@ -8,7 +8,9 @@ app.use(express.static(__dirname))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
 
+var ips = require('./routes/ip_routes')
 
+app.use('/', ips)
 
 const port = 3000
 const server = http.createServer(app)
