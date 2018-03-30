@@ -30,7 +30,8 @@ var getIP_onefirewall = (req, res) => {
         var regexp = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/gi;
         var ip_list = str.match(regexp);
         console.log(ip_list.length);
-        res.status(200).json(ip_list.length)
+        //res.status(200).json({list: ip_list})
+        res.status(200).json(ip_list)
     }
 
     request(options, callback)
