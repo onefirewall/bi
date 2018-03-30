@@ -33,7 +33,7 @@
         crossorigin="anonymous"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script> -->
     <script src="./node_modules/chart.js/dist/Chart.js"></script>
-
+    <script src="./node_modules/chart.piecelabel.js/src/Chart.PieceLabel.js"></script>
 
     <!--     <script>
         var ctx = document.getElementById("ipChart").getContext('2d');
@@ -126,6 +126,10 @@
                             },
                             legend: {
                                 position: 'top'
+                            },
+                            pieceLabel: {
+                                render: 'percentage',
+                                precision: 4
                             }
                         }
                     });

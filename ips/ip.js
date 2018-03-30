@@ -41,7 +41,7 @@ var getIP_onefirewall = (req, res) => {
         var network_list = str.match(networks)
         var joinIPandNetwork = ip_list.concat(network_list);
         //console.log(ip_list.length);
-        console.log(network_list)
+        //console.log(network_list)
 
         //res.status(200).json({list: ip_list})
         res.status(200).json(joinIPandNetwork)
