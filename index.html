@@ -35,15 +35,15 @@
     <script src="./node_modules/chart.js/dist/Chart.js"></script>
     <script src="./node_modules/chart.piecelabel.js/src/Chart.PieceLabel.js"></script>
 
-    <!--     <script>
-        var ctx = document.getElementById("ipChart").getContext('2d');
+        <script>
+        var ctx = document.getElementById("mycanvas").getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: ["Public IPs used", "OneFirewall IPs"],
                 datasets: [{
                     label: '# of IPs',
-                    data: [4294967296, 2235],
+                    data: [4294, 2235],
                     backgroundColor: [
                         //'rgba(10, 139, 10, 2)',
                         //'rgba(255, 99, 132, 2)'
@@ -74,12 +74,17 @@
                 },
                 legend: {
                     position: 'top'
+                },
+                pieceLabel: {
+                    render: 'percentage',
+                    precision: 4,
+                    fontColor: ['white', 'white']
                 }
             }
         });
-    </script> -->
+    </script>
 
-    <script>
+    <!-- <script>
         $(document).ready(function () {
             $.ajax({
                 url: "http://localhost:3000/getipof",
@@ -140,7 +145,7 @@
                 }
             });
         });
-    </script>
+    </script> -->
 
 </body>
 
