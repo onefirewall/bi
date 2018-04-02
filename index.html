@@ -86,7 +86,8 @@
                 method: "GET",
                 success: function (data) {
                     console.log(data.length);
-                    var totalOfIPs = 3740205056;
+                    //var totalOfIPs = 3740205056; //real value of total of public IPv4 on world, Class A, B, C
+                    var totalOfIPs = 5056; //test value
 
                     var chartdata = {
                         labels: ["Public IPs used", "OneFirewall IPs"],
@@ -100,7 +101,6 @@
                                 borderColor: [
                                     '#16a085',
                                     '#ff3d67'
-
                                 ],
                                 borderWidth: 1,
                                 hoverBorderWidth: 3,
@@ -129,7 +129,8 @@
                             },
                             pieceLabel: {
                                 render: 'percentage',
-                                precision: 4
+                                precision: 4,
+                                fontColor: ['white', 'white']
                             }
                         }
                     });
