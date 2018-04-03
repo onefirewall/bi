@@ -39,12 +39,66 @@ var getIP_onefirewall = (req, res) => {
         var networks = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2}\b/gi;
         var ip_list = str.match(regexp);
         var network_list = str.match(networks)
-        var joinIPandNetwork = ip_list.concat(network_list);
+        let calcIPs = 0;
+        /* console.log(network_list[0])
+        if (network_list[0].includes('/24')) {
+            console.log('yes')
+        } */
+        for (let i = 0; i < network_list.length; i++) {
+            if (network_list[i].includes('/24')) {
+                calcIPs = calcIPs + 257
+            }
+            if (network_list[i].includes('/23')) {
+                calcIPs = calcIPs + 510
+            }
+            if (network_list[i].includes('/22')) {
+                calcIPs = calcIPs + 1022
+            }
+            if (network_list[i].includes('/21')) {
+                calcIPs = calcIPs + 2046
+            }
+            if (network_list[i].includes('/20')) {
+                calcIPs = calcIPs + 4094
+            }
+            if (network_list[i].includes('/19')) {
+                calcIPs = calcIPs + 8190
+            }
+            if (network_list[i].includes('/18')) {
+                calcIPs = calcIPs + 16382
+            }
+            if (network_list[i].includes('/17')) {
+                calcIPs = calcIPs + 32766
+            }
+            if (network_list[i].includes('/16')) {
+                calcIPs = calcIPs + 65534
+            }
+            if (network_list[i].includes('/15')) {
+                calcIPs = calcIPs + 131070
+            }
+            if (network_list[i].includes('/14')) {
+                calcIPs = calcIPs + 262142
+            }
+            if (network_list[i].includes('/13')) {
+                calcIPs = calcIPs + 524286
+            }
+            if (network_list[i].includes('/12')) {
+                calcIPs = calcIPs + 1048574
+            }
+            if (network_list[i].includes('/11')) {
+                calcIPs = calcIPs + 2097150
+            }
+            if (network_list[i].includes('/10')) {
+                calcIPs = calcIPs + 4194302
+            }
+        }
+        console.log(calcIPs)
+        //var joinIPandNetwork = ip_list.concat(network_list);
+        var totalIPs = ip_list.length + calcIPs;
         //console.log(ip_list.length);
         //console.log(network_list)
 
         //res.status(200).json({list: ip_list})
-        res.status(200).json(joinIPandNetwork)
+        res.status(200).json(totalIPs)
     }
 
     request(options, callback)
