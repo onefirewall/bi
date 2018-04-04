@@ -44,6 +44,8 @@ var getIP_onefirewall = (req, res) => {
         if (network_list[0].includes('/24')) {
             console.log('yes')
         } */
+
+        //http://jodies.de/ipcalc?host=206.130.4.0&mask1=10&mask2= link to calculate number of IPs from network
         for (let i = 0; i < network_list.length; i++) {
             if (network_list[i].includes('/24')) {
                 calcIPs = calcIPs + 257
@@ -90,8 +92,9 @@ var getIP_onefirewall = (req, res) => {
             if (network_list[i].includes('/10')) {
                 calcIPs = calcIPs + 4194302
             }
+            
         }
-        console.log(calcIPs)
+        //console.log(calcIPs)
         //var joinIPandNetwork = ip_list.concat(network_list);
         var totalIPs = ip_list.length + calcIPs;
         //console.log(ip_list.length);
