@@ -37,6 +37,27 @@ var getIP_onefirewall = (req, res) => {
         var str = response.body
         var regexp = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/gi;
         var networks = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2}\b/gi;
+        
+        var objectRes = JSON.parse(response.body).body
+
+        let ip = [];
+        let score = [];
+
+        // iterate through an array of objects
+        objectRes.forEach(function (keys) {
+            //console.log(keys.score)
+            ip.push(keys.ip)
+            //this.ip = keys.ip;
+            score.push(keys.score)
+            //this.score = keys.score;
+        });
+
+        //console.log('IP: ' + ip + ' Score: ' + score)
+
+        /* for (let i = 0; i < objectRes.length; i++) {
+            console.log(objectRes[i].score)
+        } */
+        
         var ip_list = str.match(regexp);
         var network_list = str.match(networks)
         let calcIPs = 0;
@@ -94,14 +115,19 @@ var getIP_onefirewall = (req, res) => {
             }
             
         }
+
+
+
         //console.log(calcIPs)
         //var joinIPandNetwork = ip_list.concat(network_list);
         var totalIPs = ip_list.length + calcIPs;
         //console.log(ip_list.length);
         //console.log(network_list)
-
         //res.status(200).json({list: ip_list})
-        res.status(200).json(totalIPs)
+        //console.log(response.body);
+        // -------------JSON FORMAT OF OneFirewall API ---------------------//
+        //res.status(200).json(JSON.parse(response.body).body)
+        res.status(200).json({IP: ip, Score: score})
     }
 
     request(options, callback)
