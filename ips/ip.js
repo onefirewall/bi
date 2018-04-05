@@ -46,7 +46,7 @@ var getIP_onefirewall = (req, res) => {
         // iterate through an array of objects
         objectRes.forEach(function (keys) {
             //console.log(keys.score)
-            ip.push(keys.ip)
+            ip.push(keys.ip, keys.score)
             //this.ip = keys.ip;
             score.push(keys.score)
             //this.score = keys.score;
@@ -127,7 +127,7 @@ var getIP_onefirewall = (req, res) => {
         //console.log(response.body);
         // -------------JSON FORMAT OF OneFirewall API ---------------------//
         //res.status(200).json(JSON.parse(response.body).body)
-        res.status(200).json({IP: ip, Score: score})
+        res.status(200).json({ip})
     }
 
     request(options, callback)
