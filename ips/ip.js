@@ -52,6 +52,187 @@ var getIP_onefirewall = (req, res) => {
             //this.score = keys.score;
         });
 
+        // extract IPs with score less than 50
+        var scoreLower50 = [];
+        objectRes.forEach(function (result) {
+            if (result.score < 50) {
+                //scoreLower50.push(result.ip, result.score);
+                scoreLower50.push(result.ip);
+            }
+        });
+        /* console.log(scoreLower50[0]);
+        if (scoreLower50[0].includes('186')) {
+            console.log('yes')
+        } */
+        
+        // calculate number of IPs with score less than 50
+        var IP_no_Lower50 = 0;
+        for (let i = 0; i < scoreLower50.length; i++) {
+            if (scoreLower50[i].includes('/24')) {
+                IP_no_Lower50 = IP_no_Lower50 + 257
+            }
+            if (scoreLower50[i].includes('/23')) {
+                IP_no_Lower50 = IP_no_Lower50 + 510
+            }
+            if (scoreLower50[i].includes('/22')) {
+                IP_no_Lower50 = IP_no_Lower50 + 1022
+            }
+            if (scoreLower50[i].includes('/21')) {
+                IP_no_Lower50 = IP_no_Lower50 + 2046
+            }
+            if (scoreLower50[i].includes('/20')) {
+                IP_no_Lower50 = IP_no_Lower50 + 4094
+            }
+            if (scoreLower50[i].includes('/19')) {
+                IP_no_Lower50 = IP_no_Lower50 + 8190
+            }
+            if (scoreLower50[i].includes('/18')) {
+                IP_no_Lower50 = IP_no_Lower50 + 16382
+            }
+            if (scoreLower50[i].includes('/17')) {
+                IP_no_Lower50 = IP_no_Lower50 + 32766
+            }
+            if (scoreLower50[i].includes('/16')) {
+                IP_no_Lower50 = IP_no_Lower50 + 65534
+            }
+            if (scoreLower50[i].includes('/15')) {
+                IP_no_Lower50 = IP_no_Lower50 + 131070
+            }
+            if (scoreLower50[i].includes('/14')) {
+                IP_no_Lower50 = IP_no_Lower50 + 262142
+            }
+            if (scoreLower50[i].includes('/13')) {
+                IP_no_Lower50 = IP_no_Lower50 + 524286
+            }
+            if (scoreLower50[i].includes('/12')) {
+                IP_no_Lower50 = IP_no_Lower50 + 1048574
+            }
+            if (scoreLower50[i].includes('/11')) {
+                IP_no_Lower50 = IP_no_Lower50 + 2097150
+            }
+            if (scoreLower50[i].includes('/10')) {
+                IP_no_Lower50 = IP_no_Lower50 + 4194302
+            }
+        }
+        
+        // extract IPs with score between 50 and 100
+        var score50to100 = [];
+        objectRes.forEach(function (result) {
+            if (result.score >= 50 && result.score <= 100) {
+                //score50to100.push(result.ip, result.score);
+                score50to100.push(result.ip);
+            }
+        });
+
+        // calculate number of IPs with score between 50 and 100
+        var IP_bw_50_100 = 0;
+        for (let i = 0; i < score50to100.length; i++) {
+            if (score50to100[i].includes('/24')) {
+                IP_bw_50_100 = IP_bw_50_100 + 257
+            }
+            if (score50to100[i].includes('/23')) {
+                IP_bw_50_100 = IP_bw_50_100 + 510
+            }
+            if (score50to100[i].includes('/22')) {
+                IP_bw_50_100 = IP_bw_50_100 + 1022
+            }
+            if (score50to100[i].includes('/21')) {
+                IP_bw_50_100 = IP_bw_50_100 + 2046
+            }
+            if (score50to100[i].includes('/20')) {
+                IP_bw_50_100 = IP_bw_50_100 + 4094
+            }
+            if (score50to100[i].includes('/19')) {
+                IP_bw_50_100 = IP_bw_50_100 + 8190
+            }
+            if (score50to100[i].includes('/18')) {
+                IP_bw_50_100 = IP_bw_50_100 + 16382
+            }
+            if (score50to100[i].includes('/17')) {
+                IP_bw_50_100 = IP_bw_50_100 + 32766
+            }
+            if (score50to100[i].includes('/16')) {
+                IP_bw_50_100 = IP_bw_50_100 + 65534
+            }
+            if (score50to100[i].includes('/15')) {
+                IP_bw_50_100 = IP_bw_50_100 + 131070
+            }
+            if (score50to100[i].includes('/14')) {
+                IP_bw_50_100 = IP_bw_50_100 + 262142
+            }
+            if (score50to100[i].includes('/13')) {
+                IP_bw_50_100 = IP_bw_50_100 + 524286
+            }
+            if (score50to100[i].includes('/12')) {
+                IP_bw_50_100 = IP_bw_50_100 + 1048574
+            }
+            if (score50to100[i].includes('/11')) {
+                IP_bw_50_100 = IP_bw_50_100 + 2097150
+            }
+            if (score50to100[i].includes('/10')) {
+                IP_bw_50_100 = IP_bw_50_100 + 4194302
+            }
+        }
+
+        // extract IPs with score between higher than 100
+        var scoreGrater100 = [];
+        objectRes.forEach(function (result) {
+            if (result.score > 100) {
+                //scoreGrater100.push(result.ip, result.score);
+                scoreGrater100.push(result.ip);
+            }
+        });
+
+        // calculate number of IPs with score higher 100;
+        var IP_No_Higher100 = 0;
+        for (let i = 0; i < scoreGrater100.length; i++) {
+            if (scoreGrater100[i].includes('/24')) {
+                IP_No_Higher100 = IP_No_Higher100 + 257
+            }
+            if (scoreGrater100[i].includes('/23')) {
+                IP_No_Higher100 = IP_No_Higher100 + 510
+            }
+            if (scoreGrater100[i].includes('/22')) {
+                IP_No_Higher100 = IP_No_Higher100 + 1022
+            }
+            if (scoreGrater100[i].includes('/21')) {
+                IP_No_Higher100 = IP_No_Higher100 + 2046
+            }
+            if (scoreGrater100[i].includes('/20')) {
+                IP_No_Higher100 = IP_No_Higher100 + 4094
+            }
+            if (scoreGrater100[i].includes('/19')) {
+                IP_No_Higher100 = IP_No_Higher100 + 8190
+            }
+            if (scoreGrater100[i].includes('/18')) {
+                IP_No_Higher100 = IP_No_Higher100 + 16382
+            }
+            if (scoreGrater100[i].includes('/17')) {
+                IP_No_Higher100 = IP_No_Higher100 + 32766
+            }
+            if (scoreGrater100[i].includes('/16')) {
+                IP_No_Higher100 = IP_No_Higher100 + 65534
+            }
+            if (scoreGrater100[i].includes('/15')) {
+                IP_No_Higher100 = IP_No_Higher100 + 131070
+            }
+            if (scoreGrater100[i].includes('/14')) {
+                IP_No_Higher100 = IP_No_Higher100 + 262142
+            }
+            if (scoreGrater100[i].includes('/13')) {
+                IP_No_Higher100 = IP_No_Higher100 + 524286
+            }
+            if (scoreGrater100[i].includes('/12')) {
+                IP_No_Higher100 = IP_No_Higher100 + 1048574
+            }
+            if (scoreGrater100[i].includes('/11')) {
+                IP_No_Higher100 = IP_No_Higher100 + 2097150
+            }
+            if (scoreGrater100[i].includes('/10')) {
+                IP_No_Higher100 = IP_No_Higher100 + 4194302
+            }
+        }
+
         //console.log('IP: ' + ip + ' Score: ' + score)
 
         /* for (let i = 0; i < objectRes.length; i++) {
@@ -118,7 +299,7 @@ var getIP_onefirewall = (req, res) => {
 
 
 
-        //console.log(calcIPs)
+    
         //var joinIPandNetwork = ip_list.concat(network_list);
         var totalIPs = ip_list.length + calcIPs;
         //console.log(ip_list.length);
@@ -127,7 +308,7 @@ var getIP_onefirewall = (req, res) => {
         //console.log(response.body);
         // -------------JSON FORMAT OF OneFirewall API ---------------------//
         //res.status(200).json(JSON.parse(response.body).body)
-        res.status(200).json({ip})
+        res.status(200).json({IP_no_Lower50, IP_bw_50_100, IP_No_Higher100})
     }
 
     request(options, callback)

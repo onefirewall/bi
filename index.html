@@ -95,21 +95,29 @@
                     //var totalOfIPs = 5056; //test value
 
                     var chartdata = {
-                        labels: ["Public IPs used", "OneFirewall IPs"],
+                        labels: ["Total IPs", "Score < 50", "Score 50-100", "Score > 100"],
                         datasets: [{
                             label: 'Number of IPs',
                             backgroundColor: [
-                                '#16a085',
-                                '#ff3d67'
+                                //'#16a085',
+                                //'#ff3d67'
+                                'grey',
+                                'yellow',
+                                'orange',
+                                'red'
                             ],
                             borderColor: [
-                                '#16a085',
-                                '#ff3d67'
+                                //'#16a085',
+                                //'#ff3d67'
+                                'grey',
+                                'yellow',
+                                'orange',
+                                'red'
                             ],
                             borderWidth: 1,
                             hoverBorderWidth: 3,
                             hoverBorderColor: '#000',
-                            data: [totalOfIPs, data]
+                            data: [totalOfIPs, data.IP_no_Lower50, data.IP_bw_50_100, data.IP_No_Higher100]
                         }]
                     };
 
