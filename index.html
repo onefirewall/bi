@@ -99,7 +99,7 @@
                     $("#all_score_high").html(all_score_high.toLocaleString())
 
                     var chartdata = {
-                        labels: ["Total IPs", "OFA Score < 50", "Score 51-100", "Score > 100"],
+                        labels: ["Total IPs", "OFA Score <= 50", "Score 51-100", "Score >= 101"],
                         datasets: [{
                             label: 'Number of IPs',
                             backgroundColor: [
