@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div align="center" class="container">
         <br>
         <div class="col-md-6">
             <!-- <h3 class="display-4">Pie Chart for IPs</h3> -->
@@ -19,9 +19,32 @@
             <canvas id="ipChart" width="150" height="150"></canvas>
         </div> -->
 
-        <div class="col-md-6">
+        <div  class="col-md-6">
             <canvas id="mycanvas" width="130" height="130"></canvas>
         </div>
+        <table border=1 style="width:100%">
+            <tr>
+                <th>OFA Score</th>
+                <th>Quantity</th> 
+            </tr>
+
+            <tr>
+                <td>0-50</td>
+                <td><span id="all_score_50">...</span></td>
+            </tr>
+            <tr>
+                <td>51-100</td>
+                <td><span id="all_score_100">...</span></td>
+            </tr>
+            <tr>
+                <td>101-1000</td>
+                <td><span id="all_score_high">...</span></td>
+            </tr>
+            <tr>
+                <td>Undefined (all v4 IPs)</td>
+                <td><span id="all_ips">...</span></td>
+            </tr>
+         </table>
 
     </div>
 
@@ -31,62 +54,11 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script> -->
-    <!-- <script src="./node_modules/chart.js/dist/Chart.js"></script>
-    <script src="./node_modules/chart.piecelabel.js/src/Chart.PieceLabel.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
     <script src="./PieceLabel.js"></script>
 
-    <!-- <script>
-        var ctx = document.getElementById("mycanvas").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ["Public IPs used", "OneFirewall IPs"],
-                datasets: [{
-                    label: '# of IPs',
-                    data: [4294, 2235],
-                    backgroundColor: [
-                        //'rgba(10, 139, 10, 2)',
-                        //'rgba(255, 99, 132, 2)'
-                        '#16a085',
-                        '#ff3d67'
-                    ],
-                    borderColor: [
-                        //'rgba(10, 139, 10, 1)',
-                        //'rgba(255, 99, 132, 1)'
-                        '#16a085',
-                        '#ff3d67'
-
-                    ],
-                    borderWidth: 1,
-                    //borderColor: '#777',
-                    hoverBorderWidth: 3,
-                    hoverBorderColor: '#000'
-                }]
-            },
-            options: {
-                animation: {
-                    animateScale: true
-                },
-                title: {
-                    display: true,
-                    text: 'OneFirewall IPs',
-                    fontSize: 25
-                },
-                legend: {
-                    position: 'top'
-                },
-                pieceLabel: {
-                    render: 'percentage',
-                    precision: 4,
-                    fontColor: ['white', 'white']
-                }
-            }
-        });
-    </script> -->
-
     <script>
+
         $(document).ready(function () {
             $.ajax({
                 url: "https://app.onefirewall.com/api/v1/ips",
@@ -95,256 +67,39 @@
                 },
                 method: "GET",
                 success: function (data) {
-                    //console.log(data.body);
+
+                    var all_ips = Math.pow(2, 32)
+                    var all_score_50 = 0 
+                    var all_score_100 = 0
+                    var all_score_high = 0
 
                     var scoreLower50 = [];
                     data.body.forEach(function (result) {
-                        if (result.score < 50) {
-                            //scoreLower50.push(result.ip, result.score);
-                            scoreLower50.push(result.ip);
+                        var number_of_ips = 1
+                        if(result.ip.split("/")[1]){//Network
+                            var network_range = result.ip.split("/")[1]
+                            var subnet =  32 - parseInt(network_range)
+                            var number_of_ips = Math.pow(2, subnet)
+                            
                         }
+                        if(result.score <= 50){
+                            all_score_50 += number_of_ips
+                        }else if(result.score > 50 && result.score <= 100){
+                            all_score_100 += number_of_ips
+                        }else{
+                            all_score_high += number_of_ips
+                        }
+                        
                     });
-
-                    // calculate number of IPs with score less than 50
-                    var IP_no_Lower50 = 0;
-                    for (let i = 0; i < scoreLower50.length; i++) {
-                        if (scoreLower50[i].includes('/24')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 257
-                        }
-                        if (scoreLower50[i].includes('/23')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 510
-                        }
-                        if (scoreLower50[i].includes('/22')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 1022
-                        }
-                        if (scoreLower50[i].includes('/21')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 2046
-                        }
-                        if (scoreLower50[i].includes('/20')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 4094
-                        }
-                        if (scoreLower50[i].includes('/19')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 8190
-                        }
-                        if (scoreLower50[i].includes('/18')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 16382
-                        }
-                        if (scoreLower50[i].includes('/17')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 32766
-                        }
-                        if (scoreLower50[i].includes('/16')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 65534
-                        }
-                        if (scoreLower50[i].includes('/15')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 131070
-                        }
-                        if (scoreLower50[i].includes('/14')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 262142
-                        }
-                        if (scoreLower50[i].includes('/13')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 524286
-                        }
-                        if (scoreLower50[i].includes('/12')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 1048574
-                        }
-                        if (scoreLower50[i].includes('/11')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 2097150
-                        }
-                        if (scoreLower50[i].includes('/10')) {
-                            IP_no_Lower50 = IP_no_Lower50 + 4194302
-                        }
-                    }
-
-                    // extract IPs with score between 50 and 100
-                    var score50to100 = [];
-                    data.body.forEach(function (result) {
-                        if (result.score >= 50 && result.score <= 100) {
-                            //score50to100.push(result.ip, result.score);
-                            score50to100.push(result.ip);
-                        }
-                    });
-
-                    // calculate number of IPs with score between 50 and 100
-                    var IP_bw_50_100 = 0;
-                    for (let i = 0; i < score50to100.length; i++) {
-                        if (score50to100[i].includes('/24')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 257
-                        }
-                        if (score50to100[i].includes('/23')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 510
-                        }
-                        if (score50to100[i].includes('/22')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 1022
-                        }
-                        if (score50to100[i].includes('/21')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 2046
-                        }
-                        if (score50to100[i].includes('/20')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 4094
-                        }
-                        if (score50to100[i].includes('/19')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 8190
-                        }
-                        if (score50to100[i].includes('/18')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 16382
-                        }
-                        if (score50to100[i].includes('/17')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 32766
-                        }
-                        if (score50to100[i].includes('/16')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 65534
-                        }
-                        if (score50to100[i].includes('/15')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 131070
-                        }
-                        if (score50to100[i].includes('/14')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 262142
-                        }
-                        if (score50to100[i].includes('/13')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 524286
-                        }
-                        if (score50to100[i].includes('/12')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 1048574
-                        }
-                        if (score50to100[i].includes('/11')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 2097150
-                        }
-                        if (score50to100[i].includes('/10')) {
-                            IP_bw_50_100 = IP_bw_50_100 + 4194302
-                        }
-                    }
-
-                    // extract IPs with score between higher than 100
-                    var scoreGrater100 = [];
-                    data.body.forEach(function (result) {
-                        if (result.score > 100) {
-                            //scoreGrater100.push(result.ip, result.score);
-                            scoreGrater100.push(result.ip);
-                        }
-                    });
-
-                    // calculate number of IPs with score higher 100;
-                    var IP_No_Higher100 = 0;
-                    for (let i = 0; i < scoreGrater100.length; i++) {
-                        if (scoreGrater100[i].includes('/24')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 257
-                        }
-                        if (scoreGrater100[i].includes('/23')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 510
-                        }
-                        if (scoreGrater100[i].includes('/22')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 1022
-                        }
-                        if (scoreGrater100[i].includes('/21')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 2046
-                        }
-                        if (scoreGrater100[i].includes('/20')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 4094
-                        }
-                        if (scoreGrater100[i].includes('/19')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 8190
-                        }
-                        if (scoreGrater100[i].includes('/18')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 16382
-                        }
-                        if (scoreGrater100[i].includes('/17')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 32766
-                        }
-                        if (scoreGrater100[i].includes('/16')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 65534
-                        }
-                        if (scoreGrater100[i].includes('/15')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 131070
-                        }
-                        if (scoreGrater100[i].includes('/14')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 262142
-                        }
-                        if (scoreGrater100[i].includes('/13')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 524286
-                        }
-                        if (scoreGrater100[i].includes('/12')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 1048574
-                        }
-                        if (scoreGrater100[i].includes('/11')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 2097150
-                        }
-                        if (scoreGrater100[i].includes('/10')) {
-                            IP_No_Higher100 = IP_No_Higher100 + 4194302
-                        }
-                    }
                     
-                    console.log("Score < 50: " + IP_no_Lower50);
-                    console.log("Score 50-100: " + IP_bw_50_100);
-                    console.log("Score > 100: " + IP_No_Higher100);
-
-
-
-
-                    var str = JSON.stringify(data.body)
-
-                    //console.log(str)
-                    var regexp = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/gi;
-                    var networks = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2}\b/gi;
-                    var ip_list = str.match(regexp);
-                    var network_list = str.match(networks)
-
-                    let calcIPs = 0;
-                    //http://jodies.de/ipcalc?host=206.130.4.0&mask1=10&mask2= link to calculate number of IPs from network
-                    for (let i = 0; i < network_list.length; i++) {
-                        if (network_list[i].includes('/24')) {
-                            calcIPs = calcIPs + 257
-                        }
-                        if (network_list[i].includes('/23')) {
-                            calcIPs = calcIPs + 510
-                        }
-                        if (network_list[i].includes('/22')) {
-                            calcIPs = calcIPs + 1022
-                        }
-                        if (network_list[i].includes('/21')) {
-                            calcIPs = calcIPs + 2046
-                        }
-                        if (network_list[i].includes('/20')) {
-                            calcIPs = calcIPs + 4094
-                        }
-                        if (network_list[i].includes('/19')) {
-                            calcIPs = calcIPs + 8190
-                        }
-                        if (network_list[i].includes('/18')) {
-                            calcIPs = calcIPs + 16382
-                        }
-                        if (network_list[i].includes('/17')) {
-                            calcIPs = calcIPs + 32766
-                        }
-                        if (network_list[i].includes('/16')) {
-                            calcIPs = calcIPs + 65534
-                        }
-                        if (network_list[i].includes('/15')) {
-                            calcIPs = calcIPs + 131070
-                        }
-                        if (network_list[i].includes('/14')) {
-                            calcIPs = calcIPs + 262142
-                        }
-                        if (network_list[i].includes('/13')) {
-                            calcIPs = calcIPs + 524286
-                        }
-                        if (network_list[i].includes('/12')) {
-                            calcIPs = calcIPs + 1048574
-                        }
-                        if (network_list[i].includes('/11')) {
-                            calcIPs = calcIPs + 2097150
-                        }
-                        if (network_list[i].includes('/10')) {
-                            calcIPs = calcIPs + 4194302
-                        }
-
-                    }
-                    //console.log(calcIPs)
-                    //console.log(data.body.length);
-                    var totalOfIPs = 3740205056; //real value of total of public IPv4 on world, Class A, B, C
-                    //var totalOfIPs = 55505056; //test value
+                    all_ips = all_ips - all_score_50 - all_score_100 - all_score_high
+                    $("#all_ips").html(all_ips.toLocaleString())
+                    $("#all_score_50").html(all_score_50.toLocaleString())
+                    $("#all_score_100").html(all_score_100.toLocaleString())
+                    $("#all_score_high").html(all_score_high.toLocaleString())
 
                     var chartdata = {
-                        labels: ["Total IPs", "Score < 50", "Score 50-100", "Score > 100"],
+                        labels: ["Total IPs", "OFA Score < 50", "Score 51-100", "Score > 100"],
                         datasets: [{
                             label: 'Number of IPs',
                             backgroundColor: [
@@ -362,7 +117,7 @@
                             borderWidth: 1,
                             hoverBorderWidth: 3,
                             hoverBorderColor: '#000',
-                            data: [totalOfIPs, IP_no_Lower50, IP_bw_50_100, IP_No_Higher100]
+                            data: [all_ips, all_score_50, all_score_100, all_score_high]
                         }]
                     };
 
